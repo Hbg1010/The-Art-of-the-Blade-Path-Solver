@@ -160,6 +160,7 @@ def findArrow(nums):
         elif n == 2:
             dirList.append("v")
     print("".join(dirList))
+    input("...")
 
 # OLD CODE FOR FINDING THE BEST PATH IF MULTIPLE WERE ENTERED (DIDNT WORK)
 #

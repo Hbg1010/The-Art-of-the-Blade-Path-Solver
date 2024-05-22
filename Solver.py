@@ -1,3 +1,5 @@
+# forked program. I modified it a little bit, but all the logic in it is written by Acute :) 
+
 groups = [[90, 91, 92, 93], [94, 95, 96, 97], [98, 99, 100, 144]] #All of the groups used in the path (split into the three groups of four)
 
 waveGroups = [[[98, 100], [], [99, 144]], [[90, 92], [91], [93]], [[96], [94], [95, 97]],
@@ -6,7 +8,7 @@ waveGroups = [[[98, 100], [], [99, 144]], [[90, 92], [91], [93]], [[96], [94], [
     [[94,96], [95, 97], []], [[94,97], [96], [95]], [[96], [95], [94, 97]], [[144], [98], [99, 100]],
     [[90,92], [93], [91]]]
 
-def getGroups():
+def getGroups(jsonInput):
 
     def colInput():
         while True:
@@ -80,17 +82,19 @@ def getGroups():
         return [fGroup, sGroup, lGroup]
     
     while True:
-        
-        while True:
 
-            getType = input("If you want to enter the colors directly enter 'c', if you want to enter the groups directly enter 'g': ")
-            if getType.lower() == 'c': 
-                gArr = colInput()
-                break
-            elif getType.lower() == 'g': 
-                gArr = groupInput()
-                break
-            else: print("\nPlease enter either 'c' or 'g' (without the ')\n")
+        # uses passed in input to automatically start getting the memory settings
+        gArr = colInput() if jsonInput == 'c' else groupInput()
+        # while True:
+
+        #     getType = input("If you want to enter the colors directly enter 'c', if you want to enter the groups directly enter 'g': ")
+        #     if getType.lower() == 'c': 
+        #         gArr = colInput()
+        #         break
+        #     elif getType.lower() == 'g': 
+        #         gArr = groupInput()
+        #         break
+        #     else: print("\nPlease enter either 'c' or 'g' (without the ')\n")
 
         #Testing if groups are valid
         new = False
@@ -115,9 +119,9 @@ def getGroups():
             continue 
         else: return gArr
 
-def findPerms():
+def findPerms(jsonInput):
 
-    gArr = getGroups()
+    gArr = getGroups(jsonInput)
 
     posGroups = []
     for li in range(len(gArr[2])):
@@ -144,7 +148,8 @@ def findPaths(posGroups):
                         continue
         paths.append(nDirList)
         findArrow(nDirList)
-    return paths
+
+    return paths # returns the list to the main file
         
 def findArrow(nums):
 
@@ -158,44 +163,8 @@ def findArrow(nums):
             dirList.append(">")
         elif n == 2:
             dirList.append("v")
+    
     print("".join(dirList))
-    input("Press enter to exit...")
 
-# OLD CODE FOR FINDING THE BEST PATH IF MULTIPLE WERE ENTERED (DIDNT WORK)
-#
-# def findMax(paths):
-#     path = []
-#     for n in range(15):
-#         bestArr = [0, 0, 0]
-#         for i in range(len(paths)):
-#             c = paths[i][n]
-#             bestArr[c] += 1
-#         bestN = [0]
-#         for n in bestArr:
-#             if n > bestN[0]:
-#                 bestN = [n]
-#             elif n == bestN[0]:
-#                 bestN.append(n)
-#         if len(bestN) == 1: path.append([bestArr.index(bestN[0])])
-#         else:
-#             pos = []
-#             for i in range(3):
-#                 if bestArr[i] == bestN[0]:
-#                     pos.append(i)
-#             path.append(pos)
-#     return path
-
-# def findBest(path):    
-#     best = []
-#     for c in path:
-#         if len(c) > 1: best.append(random.choice(c))
-#         else: best.append(c[0])
-#     return best
-
-perms = findPerms()
-paths = findPaths(perms)
-# if len(paths) > 1:
-#     # maxPath = findMax(paths)
-#     # best = findBest(maxPath)
-#     print("\nThe most likely path is: ")
-#     findArrow(best)
+# perms = findPerms()
+# paths = findPaths(perms)
